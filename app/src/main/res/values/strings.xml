@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DialogFragmentAnywhere</string>
+    
+    <string-array name="locates">
+        <item>Left</item>
+        <item>Above</item>
+        <item>Right</item>
+        <item>Bottom</item>
+    </string-array>
+</resources>
