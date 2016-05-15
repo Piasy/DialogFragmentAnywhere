@@ -51,14 +51,14 @@ import com.github.piasy.safelyandroid.fragment.TransactionCommitter;
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseDialogFragment extends DialogFragment implements TransactionCommitter {
 
-    private static final float DEFAULT_DIM_AMOUNT = 0.2F;
-    private static final String ANCHOR_VIEW_X = "ANCHOR_VIEW_X";
-    private static final String ANCHOR_VIEW_Y = "ANCHOR_VIEW_Y";
-    private static final String ANCHOR_VIEW_WIDTH = "ANCHOR_VIEW_WIDTH";
-    private static final String ANCHOR_VIEW_HEIGHT = "ANCHOR_VIEW_HEIGHT";
-    private static final String LOCATE_TO_ANCHOR = "LOCATE_TO_ANCHOR";
-    private static final String OFFSET_X = "OFFSET_X";
-    private static final String OFFSET_Y = "OFFSET_Y";
+    protected static final float DEFAULT_DIM_AMOUNT = 0.2F;
+    protected static final String ANCHOR_VIEW_X = "ANCHOR_VIEW_X";
+    protected static final String ANCHOR_VIEW_Y = "ANCHOR_VIEW_Y";
+    protected static final String ANCHOR_VIEW_WIDTH = "ANCHOR_VIEW_WIDTH";
+    protected static final String ANCHOR_VIEW_HEIGHT = "ANCHOR_VIEW_HEIGHT";
+    protected static final String LOCATE_TO_ANCHOR = "LOCATE_TO_ANCHOR";
+    protected static final String OFFSET_X = "OFFSET_X";
+    protected static final String OFFSET_Y = "OFFSET_Y";
 
     public static final int LOCATE_LEFT = 1;
     public static final int LOCATE_ABOVE = 2;

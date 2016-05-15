@@ -61,9 +61,4 @@ public class WPDialog extends BaseDialogFragment {
     protected int getHeight() {
         return ViewGroup.LayoutParams.WRAP_CONTENT;
     }
-
-    @Override
-    protected boolean autoBindViews() {
-        return true;
-    }
 }
