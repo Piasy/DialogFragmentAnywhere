@@ -29,7 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({ R.id.mBtnCenter })
     public void showDialog(View v) {
-        WPDialog.showAt(getSupportFragmentManager(), v, getLocate(), getOffsetX(), getOffsetY());
+        BubbleDialog.showAt(getSupportFragmentManager(), v, getLocate(), getOffsetX(),
+                getOffsetY());
+    }
+
+    private static final int BUBBLE_OFFSET_X_DP = 53;
+    private static final int BUBBLE_OFFSET_Y_DP = 7;
+
+    @OnClick({ R.id.mBtnAdd })
+    public void showAddDialog(View v) {
+        BubbleDialog.showAt(getSupportFragmentManager(), v, BaseDialogFragment.LOCATE_BELOW,
+                (int) -(getResources().getDisplayMetrics().density * BUBBLE_OFFSET_X_DP),
+                (int) (getResources().getDisplayMetrics().density * BUBBLE_OFFSET_Y_DP));
     }
 
     private int getOffsetX() {

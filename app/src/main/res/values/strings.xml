@@ -7,4 +7,7 @@
         <item>Right</item>
         <item>Bottom</item>
     </string-array>
+
+    <string name="text_create_group">创建群组</string>
+    <string name="text_add_friend">添加好友</string>
 </resources>
