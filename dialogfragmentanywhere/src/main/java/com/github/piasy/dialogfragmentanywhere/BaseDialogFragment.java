@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package piasy.github.com.dialogfragmentanywhere;
+package com.github.piasy.dialogfragmentanywhere;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -193,7 +193,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
 
     void anchorDialog() {
         final Bundle args = getArguments();
-        if (args == null) {
+        if (args == null || getDialog() == null) {
             return;
         }
 

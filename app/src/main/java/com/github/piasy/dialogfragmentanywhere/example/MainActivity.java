@@ -1,4 +1,4 @@
-package piasy.github.com.dialogfragmentanywhere.example;
+package com.github.piasy.dialogfragmentanywhere.example;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,8 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.github.piasy.dialogfragmentanywhere.BaseDialogFragment;
 import java.util.List;
-import piasy.github.com.dialogfragmentanywhere.BaseDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 

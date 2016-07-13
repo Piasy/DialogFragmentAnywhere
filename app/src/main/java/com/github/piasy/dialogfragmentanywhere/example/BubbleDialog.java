@@ -1,11 +1,11 @@
-package piasy.github.com.dialogfragmentanywhere.example;
+package com.github.piasy.dialogfragmentanywhere.example;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
-import piasy.github.com.dialogfragmentanywhere.BaseDialogFragment;
+import com.github.piasy.dialogfragmentanywhere.BaseDialogFragment;
 
 /**
  * Created by Piasy on 16/4/28.

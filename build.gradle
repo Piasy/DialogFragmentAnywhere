@@ -39,12 +39,12 @@ ext {
     artifactName = 'dialogfragmentanywhere'
     artifactDescription = 'Anchor your dialog fragment to anywhere! '
     artifactLabels = ['DialogFragment', 'Position']
-    releaseVersionCode = 1
-    releaseVersionName = '1.0.0'
+    releaseVersionCode = 2
+    releaseVersionName = '1.1.0'
 
-    androidCompileSdkVersion = 'Google Inc.:Google APIs:23'
-    androidBuildToolsVersion = '23.0.3'
-    androidSupportSdkVersion = '23.3.0'
+    androidCompileSdkVersion = 24
+    androidBuildToolsVersion = '24.0.0'
+    androidSupportSdkVersion = '24.0.0'
     minSdkVersion = 14
-    targetSdkVersion = 23
+    targetSdkVersion = 24
 }
