@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.github.piasy:safelyandroid:1.1.1'
+    compile "com.android.support:support-fragment:$rootProject.androidSupportSdkVersion"
+
+    compile 'com.github.piasy:safelyandroid:1.2.4'
 }

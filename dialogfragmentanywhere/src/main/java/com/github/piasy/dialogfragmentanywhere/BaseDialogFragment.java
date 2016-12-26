@@ -51,6 +51,11 @@ import com.github.piasy.safelyandroid.fragment.TransactionCommitter;
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseDialogFragment extends DialogFragment implements TransactionCommitter {
 
+    public static final int LOCATE_LEFT = 1;
+    public static final int LOCATE_ABOVE = 2;
+    public static final int LOCATE_RIGHT = 3;
+    public static final int LOCATE_BELOW = 4;
+
     protected static final float DEFAULT_DIM_AMOUNT = 0.2F;
     protected static final String ANCHOR_VIEW_X = "ANCHOR_VIEW_X";
     protected static final String ANCHOR_VIEW_Y = "ANCHOR_VIEW_Y";
@@ -60,19 +65,11 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
     protected static final String OFFSET_X = "OFFSET_X";
     protected static final String OFFSET_Y = "OFFSET_Y";
 
-    public static final int LOCATE_LEFT = 1;
-    public static final int LOCATE_ABOVE = 2;
-    public static final int LOCATE_RIGHT = 3;
-    public static final int LOCATE_BELOW = 4;
-
     private final SupportDialogFragmentDismissDelegate mSupportDialogFragmentDismissDelegate =
             new SupportDialogFragmentDismissDelegate();
 
     private final SupportFragmentTransactionDelegate mSupportFragmentTransactionDelegate =
             new SupportFragmentTransactionDelegate();
-
-    @IntDef({ LOCATE_LEFT, LOCATE_ABOVE, LOCATE_RIGHT, LOCATE_BELOW })
-    public @interface Locate {}
 
     public static Bundle anchorTo(View anchor, @Locate int locate, int offsetX, int offsetY) {
         Bundle args = new Bundle();
@@ -92,6 +89,50 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
+        return new Dialog(getActivity(), getTheme()) {
+            @Override
+            public void onBackPressed() {
+                if (isCanceledOnBackPressed()) {
+                    super.onBackPressed();
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Less dimmed background; see http://stackoverflow.com/q/13822842/56285
+        final Window window = getDialog().getWindow();
+        final WindowManager.LayoutParams params = window.getAttributes();
+        params.dimAmount = getDimAmount(); // dim only a little bit
+        window.setAttributes(params);
+
+        window.setLayout(getWidth(), getHeight());
+        window.setGravity(getGravity());
+
+        // Transparent background; see http://stackoverflow.com/q/15007272/56285
+        // (Needed to make dialog's alpha shadow look good)
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+
+        final Resources res = getResources();
+        final int titleDividerId = res.getIdentifier("titleDivider", "id", "android");
+        if (titleDividerId > 0) {
+            final View titleDivider = getDialog().findViewById(titleDividerId);
+            if (titleDivider != null) {
+                titleDivider.setBackgroundColor(res.getColor(android.R.color.transparent));
+            }
+        }
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbindView();
     }
 
     @Nullable
@@ -124,41 +165,10 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        // Less dimmed background; see http://stackoverflow.com/q/13822842/56285
-        final Window window = getDialog().getWindow();
-        final WindowManager.LayoutParams params = window.getAttributes();
-        params.dimAmount = getDimAmount(); // dim only a little bit
-        window.setAttributes(params);
-
-        window.setLayout(getWidth(), getHeight());
-        window.setGravity(Gravity.LEFT | Gravity.TOP);
-
-        // Transparent background; see http://stackoverflow.com/q/15007272/56285
-        // (Needed to make dialog's alpha shadow look good)
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-
-        final Resources res = getResources();
-        final int titleDividerId = res.getIdentifier("titleDivider", "id", "android");
-        if (titleDividerId > 0) {
-            final View titleDivider = getDialog().findViewById(titleDividerId);
-            if (titleDivider != null) {
-                titleDivider.setBackgroundColor(res.getColor(android.R.color.transparent));
-            }
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mSupportDialogFragmentDismissDelegate.onResumed(this);
         mSupportFragmentTransactionDelegate.onResumed();
-    }
-
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbindView();
     }
 
     protected final boolean startActivitySafely(final Intent intent) {
@@ -176,19 +186,6 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
     @Override
     public boolean isCommitterResumed() {
         return isResumed();
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        return new Dialog(getActivity(), getTheme()) {
-            @Override
-            public void onBackPressed() {
-                if (isCanceledOnBackPressed()) {
-                    super.onBackPressed();
-                }
-            }
-        };
     }
 
     void anchorDialog() {
@@ -215,13 +212,13 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
                 params.x = anchorX - dialogWidth + offsetX;
                 params.y =
                         anchorY - Math.abs(dialogHeight - anchorHeight) / 2 - getStatusBarHeight() +
-                                offsetY;
+                        offsetY;
                 break;
             case LOCATE_RIGHT:
                 params.x = anchorX + anchorWidth + offsetX;
                 params.y =
                         anchorY - Math.abs(dialogHeight - anchorHeight) / 2 - getStatusBarHeight() +
-                                offsetY;
+                        offsetY;
                 break;
             case LOCATE_BELOW:
                 params.x = anchorX - Math.abs(dialogWidth - anchorWidth) / 2 + offsetX;
@@ -241,6 +238,10 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
 
     protected float getDimAmount() {
         return DEFAULT_DIM_AMOUNT;
+    }
+
+    protected int getGravity() {
+        return Gravity.LEFT | Gravity.TOP;
     }
 
     protected abstract int getWidth();
@@ -292,5 +293,9 @@ public abstract class BaseDialogFragment extends DialogFragment implements Trans
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    @IntDef({ LOCATE_LEFT, LOCATE_ABOVE, LOCATE_RIGHT, LOCATE_BELOW })
+    public @interface Locate {
     }
 }
